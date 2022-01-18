@@ -1,133 +1,335 @@
 import sys
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
-##################################################
+####################################################
 
 class Janela(QWidget):
-    __Lb_TituloRegiao=None
-    __Lb_TituloPeixe=None
-    __Lb_TituloCamarao=None
-    __Lb_TotalProd=None
-
-    __Lb_Regiao=[]
-    __LEd_Peixe=[]
-    __LEd_Camarao=[]
-    __LEd_TotalProd=[]
-
-    __LEd_MaiorRegiao=None
-    __Bt_Calc=None
-
-    def __init__(self,Str='Janela'):
+    __op=0
+    __select=1
+    total=0
+    actual=0.0
+    __LEd_valor1=[]
+    __LEd_valor2=[]
+    __LEd_result=[]
+    __LEd_op=[]
+#####################
+#####################
+    __Bt_select1=[]
+    __Bt_select2=[]
+#####################
+    __Bt_Calc=[]
+    __Bt_Clean=[]
+#####################
+    __Bt_adic=[]
+    __Bt_sub=[]
+    __Bt_div=[]
+    __Bt_mult=[]
+#####################
+    __Bt_1=[]
+    __Bt_10=[]
+    __Bt_100=[]
+    __Bt_1000=[]
+    __Bt_10000=[]
+    __Bt_100000=[]
+####################################################
+    def __init__(self,Str):
         super().__init__()
         super().setWindowTitle(Str)
         super().setGeometry(400,200,480,200)
         
         self.setAutoFillBackground(True)
         p=self.palette()
-        p.setColor(self.backgroundRole(), QColor('orange'))
+        p.setColor(self.backgroundRole(), QColor('lightgreen'))
         self.setPalette(p)
         
         self.inicialize()
+
+    ####################################################
+    ####################################################
+
+    #FUNÇÕES DE AÇÕES DOS BOTÕES SELECT
+    def action__Bt_select1(self):
+        self.__select=1
+
+    def action__Bt_select2(self):
+        self.__select=2
+
+    ####################################################
+    ####################################################
+
+    #FUNÇÕES DE AÇÕES DOS BOTÕES QUE DEFINEM OS VALORES
+    def action__Bt_1(self):
+        actual=0.0
+        if self.__select==1:
+            actual = float(self.__LEd_valor1.text())
+            actual = actual + 1.0
+            self.__LEd_valor1.setText("%5.0f"%actual)
+        elif self.__select==2:
+            actual = float(self.__LEd_valor2.text())
+            actual = actual + 1.0
+            self.__LEd_valor2.setText("%5.0f"%actual)
+    
+    def action__Bt_10(self):
+        actual=0.0
+        if self.__select==1:
+            actual = float(self.__LEd_valor1.text())
+            actual = actual + 10.0
+            self.__LEd_valor1.setText("%5.0f"%actual)
+        elif self.__select==2:
+            actual = float(self.__LEd_valor2.text())
+            actual = actual + 10.0
+            self.__LEd_valor2.setText("%5.0f"%actual)
+    
+    def action__Bt_100(self):
+        actual=0.0
+        if self.__select==1:
+            actual = float(self.__LEd_valor1.text())
+            actual = actual + 100.0
+            self.__LEd_valor1.setText("%5.0f"%actual)
+        elif self.__select==2:
+            actual = float(self.__LEd_valor2.text())
+            actual = actual + 100.0
+            self.__LEd_valor2.setText("%5.0f"%actual)
+    
+    def action__Bt_1000(self):
+        actual=0.0
+        if self.__select==1:
+            actual = float(self.__LEd_valor1.text())
+            actual = actual + 1000.0
+            self.__LEd_valor1.setText("%5.0f"%actual)
+        elif self.__select==2:
+            actual = float(self.__LEd_valor2.text())
+            actual = actual + 1000.0
+            self.__LEd_valor2.setText("%5.0f"%actual)
+    
+    def action__Bt_10000(self):
+        actual=0.0
+        if self.__select==1:
+            actual = float(self.__LEd_valor1.text())
+            actual = actual + 10000.0
+            self.__LEd_valor1.setText("%5.0f"%actual)
+        elif self.__select==2:
+            actual = float(self.__LEd_valor2.text())
+            actual = actual + 10000.0
+            self.__LEd_valor2.setText("%5.0f"%actual)
+    
+    def action__Bt_100000(self):
+        actual=0.0
+        if self.__select==1:
+            actual = float(self.__LEd_valor1.text())
+            actual = actual + 100000.0
+            self.__LEd_valor1.setText("%5.0f"%actual)
+        elif self.__select==2:
+            actual = float(self.__LEd_valor2.text())
+            actual = actual + 100000.0
+            self.__LEd_valor2.setText("%5.0f"%actual)
+
+    ####################################################
+    ####################################################
+
+    #FUNÇÕES DE AÇÕES DOS BOTÕES OPERACIONAIS
+    def action__Bt_adic(self):
+        self.__op = 1
+        self.__LEd_op.setText('+')
+    
+    def action__Bt_sub(self):
+        self.__op = 2
+        self.__LEd_op.setText('-')
+    
+    def action__Bt_div(self):
+        self.__op = 3
+        self.__LEd_op.setText('÷')
+    
+    def action__Bt_mult(self):
+        self.__op = 4
+        self.__LEd_op.setText('×')
         
-    def total_producao(self):
+    ####################################################
+    ####################################################
+
+    def action__Bt_Calc(self,__op):
+        total=0.0
         try:
-            n1 = len(self.__LEd_Peixe)
-            for i in range(0,n1,1):
-                val1=float(self.__LEd_Peixe[i].text())
-                val2=float(self.__LEd_Camarao[i].text())
-                total=val1+val2
-                self.__LEd_TotalProd[i].setText('%4.2f' % total)
+            valor1 = float(self.__LEd_valor1.text())
+            valor2 = float(self.__LEd_valor2.text())
+
+            if self.__op == 1:
+                total = valor1 + valor2
+
+            elif self.__op == 2:
+                total = valor1 - valor2
+
+            elif self.__op == 3:
+                total = valor1 / valor2
+        
+            elif self.__op ==4:
+                total = valor1 * valor2
         except:
             return
 
-    def maior_regiao(self):
-        try:
-            max=0
-            n1=len(self.__LEd_TotalProd)
-            for i in range(0,n1,1):
-                val=float(self.__LEd_TotalProd[i].text())
-                if max<val:
-                    max=val
-                    ii=i
-            self.__LEd_MaiorRegiao.setText(self.__Lb_Regiao[ii].text())
-        except:
-            return
+        self.__LEd_result.setText("%5.1f"%total)
+        
+    ####################################################
 
-    def closeEvent(self, event):
+    def action__Bt_Clean(self):
+        self.__LEd_valor1.setText('%5.0f'%0)
+        self.__LEd_valor2.setText('%5.0f'%0)
+        self.__LEd_result.setText('%5.0f'%0.0)
+
+    ####################################################
+
+    #FUNÇÃO DE DESTRUÇÃO DA JANELA
+    def closeEvent(self,event):
         self.destroy()
         sys.exit(0)
 
-    def action_Bt_Calc(self):
-        self.total_producao()
-        self.maior_regiao()
+    ####################################################
 
     def inicialize(self):
         Grid=QGridLayout()
 
         p1=self.palette()
-        p1.setColor(self.backgroundRole(),Qt.yellow)
+        p1.setColor(self.backgroundRole(),Qt.gray)
 
-        self.__Lb_TituloRegiao=QLabel(self,text='Região')
-        self.__Lb_TituloPeixe=QLabel(self,text='Peixe')
-        self.__Lb_TituloCamarao=QLabel(self,text='Camarão')
-        self.__Lb_TotalProd=QLabel(self,text='Total da Prod.')
-        
-        self.__Lb_TituloRegiao.setAlignment(Qt.AlignLeft)
-        self.__Lb_TituloPeixe.setAlignment(Qt.AlignLeft)
-        self.__Lb_TituloCamarao.setAlignment(Qt.AlignLeft)
-        self.__Lb_TotalProd.setAlignment(Qt.AlignLeft)
-        
-        self.__Lb_TituloRegiao.setAutoFillBackground(True)
-        self.__Lb_TituloRegiao.setPalette(p1)
-        self.__Lb_TituloPeixe.setAutoFillBackground(True)
-        self.__Lb_TituloPeixe.setPalette(p1)
-        self.__Lb_TituloCamarao.setAutoFillBackground(True)
-        self.__Lb_TituloCamarao.setPalette(p1)
-        self.__Lb_TotalProd.setAutoFillBackground(True)
-        self.__Lb_TotalProd.setPalette(p1)
+        ####################################################
 
-        Regiao = ['Norte','Nordeste','Centro-Oeste','Sudeste','Sul']
+        #CRIANDO AS LABELS
+        self.__Lb_valor1=QLabel(self,text='1st VALUE')
+        self.__Lb_valor2=QLabel(self,text='2nd VALUE')
+        self.__Lb_op=QLabel(self,text='OPERATION')
+        self.__Lb_valor1.setAlignment(QtCore.Qt.AlignCenter)
+        self.__Lb_valor2.setAlignment(QtCore.Qt.AlignCenter)
+        self.__Lb_op.setAlignment(QtCore.Qt.AlignCenter)
+        self.__Lb_valor1.setStyleSheet('background-color : darkgray')
+        self.__Lb_valor2.setStyleSheet('background-color : darkgray')
+        self.__Lb_op.setStyleSheet('background-color : darkgray')
+
+        ####################################################
+
+        #CRIANDO OS LINE EDITS
+        self.__LEd_op=QLineEdit(self)
+        self.__LEd_result=QLineEdit(self)
+        self.__LEd_result.setText('0.0')
+        self.__LEd_valor1=QLineEdit(self)
+        self.__LEd_valor1.setText("%5.0f"%0)
+        self.__LEd_valor2=QLineEdit(self)
+        self.__LEd_valor2.setText("%5.0f"%0)
+        self.__LEd_op.setReadOnly(True)
+        self.__LEd_result.setReadOnly(True)
+        self.__LEd_valor1.setReadOnly(True)
+        self.__LEd_valor2.setReadOnly(True)
+        self.__LEd_op.setAlignment(QtCore.Qt.AlignCenter)
+        self.__LEd_valor1.setAlignment(QtCore.Qt.AlignCenter)
+        self.__LEd_valor2.setAlignment(QtCore.Qt.AlignCenter)
+
+        ####################################################
+        ####################################################
+
+        #CRIANDO TODOS OS BOTOES
+
+        self.__Bt_select1=QPushButton(self,text='SELECT')
+        self.__Bt_select1.setStyleSheet('background-color : lightgray')
+        self.__Bt_select1.clicked.connect(self.action__Bt_select1)
+
+        self.__Bt_select2=QPushButton(self,text='SELECT')
+        self.__Bt_select2.setStyleSheet('background-color : lightgray')
+        self.__Bt_select2.clicked.connect(self.action__Bt_select2)
+
+        self.__Bt_Calc=QPushButton(self,text='CALCULATE')
+        self.__Bt_Calc.setStyleSheet('background-color : gray')
+        self.__Bt_Calc.clicked.connect(self.action__Bt_Calc)
+
+        self.__Bt_Clean=QPushButton(self,text='CLEAN')
+        self.__Bt_Clean.setStyleSheet('background-color : darkred')
+        self.__Bt_Clean.clicked.connect(self.action__Bt_Clean)
+
+        ####################################################
+
+        self.__Bt_adic=QPushButton(self,text='+')
+        self.__Bt_adic.setStyleSheet('background-color : green')
+        self.__Bt_adic.clicked.connect(self.action__Bt_adic)
+
+        self.__Bt_sub=QPushButton(self,text='-')
+        self.__Bt_sub.setStyleSheet('background-color : green')
+        self.__Bt_sub.clicked.connect(self.action__Bt_sub)
+
+        self.__Bt_div=QPushButton(self,text='÷')
+        self.__Bt_div.setStyleSheet('background-color : green')
+        self.__Bt_div.clicked.connect(self.action__Bt_div)
+
+        self.__Bt_mult=QPushButton(self,text='×')
+        self.__Bt_mult.setStyleSheet('background-color : green')
+        self.__Bt_mult.clicked.connect(self.action__Bt_mult)
+
+        ####################################################
+
+        self.__Bt_1=QPushButton(self,text='1')
+        self.__Bt_1.clicked.connect(self.action__Bt_1)
+
+        self.__Bt_10=QPushButton(self,text='10')
+        self.__Bt_10.clicked.connect(self.action__Bt_10)
+
+        self.__Bt_100=QPushButton(self,text='100')
+        self.__Bt_100.clicked.connect(self.action__Bt_100)
+
+        self.__Bt_1000=QPushButton(self,text='1000')
+        self.__Bt_1000.clicked.connect(self.action__Bt_1000)
+
+        self.__Bt_10000=QPushButton(self,text='10000')
+        self.__Bt_10000.clicked.connect(self.action__Bt_10000)
+
+        self.__Bt_100000=QPushButton(self,text='100000')
+        self.__Bt_100000.clicked.connect(self.action__Bt_100000)
+
+        ####################################################
+        ####################################################
         
-        nl=len(Regiao)
-        for i in range(0,nl,1):
-            Lb=QLabel(self,text=Regiao[i])
-            Lb.setAlignment(Qt.AlignLeft)
-            Lb.setAutoFillBackground(True)
-            Lb.setPalette(p1)
-            self.__Lb_Regiao.append(Lb)
-            
-            LEd=QLineEdit(self,width=52)
-            self.__LEd_Peixe.append(LEd)
-            
-            LEd=QLineEdit(self,width=52)
-            self.__LEd_Camarao.append(LEd)
-            
-            LEd=QLineEdit(self,width=52)
-            self.__LEd_TotalProd.append(LEd)
-            
-        self.__Bt_Calc=QPushButton(self,text='Calcular')
-        self.__Bt_Calc.clicked.connect(self.action_Bt_Calc)
+        #INTEGRANDO OS LABELS
+        Grid.addWidget(self.__Lb_valor1,0,1)
+        Grid.addWidget(self.__Lb_valor2,0,3)
+        Grid.addWidget(self.__Lb_op,0,2)
+
+        ####################################################
+        ####################################################
         
-        self.__LEd_MaiorRegiao=QLineEdit(self,width=52)
+        #INTEGRANDO OS BOTOES
+        Grid.addWidget(self.__Bt_1, 3, 1)
+        Grid.addWidget(self.__Bt_10, 3, 2)
+        Grid.addWidget(self.__Bt_100, 3, 3)
+        Grid.addWidget(self.__Bt_1000, 4, 1)
+        Grid.addWidget(self.__Bt_10000, 4, 2)
+        Grid.addWidget(self.__Bt_100000, 4, 3)
+
+        Grid.addWidget(self.__Bt_adic, 1, 4)
+        Grid.addWidget(self.__Bt_sub, 2, 4)
+        Grid.addWidget(self.__Bt_div, 3, 4)
+        Grid.addWidget(self.__Bt_mult, 4, 4)
+
+        Grid.addWidget(self.__Bt_select1, 2, 1)
+        Grid.addWidget(self.__Bt_select2, 2, 3)
+
+        Grid.addWidget(self.__Bt_Calc, 5, 1)
+
+        Grid.addWidget(self.__Bt_Clean, 5, 4)
+
+        ####################################################
+        ####################################################
+
+        #INTEGRANDO OS LINE EDITS
+        Grid.addWidget(self.__LEd_op,1,2)
+        Grid.addWidget(self.__LEd_result,5,2,1,2)
+        Grid.addWidget(self.__LEd_valor1,1,1)
+        Grid.addWidget(self.__LEd_valor2,1,3)
         
-        Grid.addWidget(self.__Lb_TituloRegiao,0,0)
-        Grid.addWidget(self.__Lb_TituloPeixe,0,1)
-        Grid.addWidget(self.__Lb_TituloCamarao,0,2)
-        Grid.addWidget(self.__Lb_TotalProd,0,3)
-        
-        nl = len(self.__Lb_Regiao)
-        for i in range(0,nl,1):
-            Grid.addWidget(self.__Lb_Regiao[i],i+1,0)
-            Grid.addWidget(self.__LEd_Peixe[i],i+1,1)
-            Grid.addWidget(self.__LEd_Camarao[i],i+1,2)
-            Grid.addWidget(self.__LEd_TotalProd[i],i+1,3)
-        
-        Grid.addWidget(self.__Bt_Calc, nl+1, 1)
-        Grid.addWidget(self.__LEd_MaiorRegiao,nl+1,2)
-            
+        ####################################################
+        ####################################################
+
         self.setLayout(Grid)
         self.show()
 
-##################################################
+
+
+
